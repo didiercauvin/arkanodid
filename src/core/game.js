@@ -5,6 +5,6 @@ exports.init = function(width, height) {
 	canvas.width = width;
 	canvas.height = height;
 
-	context.font = 'italic 40pt Calibri';
-	context.fillText('Hello World!', 150, 100);
+	context.font = 'italic 20pt Calibri';
+	context.fillText('Hello World!!!', 150, 100);
 }

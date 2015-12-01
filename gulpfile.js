@@ -1,29 +1,26 @@
 var gulp = require('gulp'),
-	browserSync = require('browser-sync').create(),
 	browserify = require('browserify'),
-	source = require('vinyl-source-stream');
+	source = require('vinyl-source-stream'),
+	connect = require('gulp-connect');
 
 gulp.task('server', function() {
-	browserSync.init({
-		server: {
-			baseDir: "./src"
-		}
+	connect.server({
+		root: "src",
+		livereload: true,
+		port: 3000
 	});
-
-	gulp.watch(['**/*.js', '!src/dist/bundle.js'], ['js-watch']);
 });
 
 gulp.task('js', function() {
 	return browserify('./src/app.js')
 			.bundle()
 			.pipe(source('bundle.js'))
-			.pipe(gulp.dest('./src/dist'));
-
-
+			.pipe(gulp.dest('./src/dist'))
+			.pipe(connect.reload());
 });
 
-gulp.task('js-watch', ['js'], function() {
-	browserSync.reload();
+gulp.task('watch', function() {
+	gulp.watch(['**/*.js', '!src/dist/bundle.js'], ['js']);
 });
 
-gulp.task('default', ['server']);
+gulp.task('default', ['server', 'watch']);
